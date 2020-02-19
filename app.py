@@ -35,12 +35,12 @@ def create_chat():
         print("join chat"+request.args["magic_key"])
         for chat in chats.items():
             if request.args["magic_key"] == chat[1]["magic_key"]:
-                return render_template("join_chat.html", chat_id = chat[0], magic_key = request.args["magic_key"])
-    return render_template("create_chat.html")
+                return render_template("chat_project.html", chat_id = chat[0], magic_key = request.args["magic_key"])
+    return render_template("chat_project.html")
 
 @app.route("/chat/<req_chat_id>")
 def chat(req_chat_id):
-    return render_template("chat_room.html", chat_id = req_chat_id)
+    return render_template("chat_project.html", chat_id = req_chat_id)
 
 @app.route("/api/create", methods = ['POST'])
 def create():
@@ -81,11 +81,6 @@ def invite(this_chat_id):
             magic_link = "http://localhost:5000/?magic_key="+chats[this_chat_id]["magic_key"]
     return magic_link
 
-@app.route("/api/<chat_id>", methods = ['GET', 'POST'])
-def chat_room(chat_id):
-    print("Get" + chat_id)
-    return "321"
-
 @app.route('/api/authenticate', methods=['POST'])
 def authenticate():
     # TODO: check if the request body contains a chat_id and the correct magic_key for that chat
@@ -106,7 +101,6 @@ def authenticate():
 
     return session_token
 
-
 @app.route('/api/messages', methods=['GET', 'POST'])
 def messages ():
     # TODO: check if the request body contains a chat_id and valid session token for that chat
@@ -115,6 +109,7 @@ def messages ():
     headers = request.headers
 
     if(int(headers["chat_id"]) > chat_id):
+        print("chat room id not correct")
         return "{}"
     if headers["session_token"] not in chats[headers["chat_id"]]["authorized_users"].keys():
         print(chats[headers["chat_id"]]["authorized_users"].keys())

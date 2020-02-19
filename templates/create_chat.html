@@ -6,11 +6,12 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
          <script type="text/javascript" src="{{ url_for('static', filename='create_chat.js') }}"></script>
 
+        <div id="create_chat_display">
         <label for="create_chat">username: </label>
         <input id="create_chat"></input>
         <button onclick="create_chat();">create chat</button>
-
         <div id="create_chat_success"> </div>
+        </div>
 
     </head>
     <body>
